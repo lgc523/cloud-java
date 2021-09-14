@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: consumer
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: guangchang.tech:8848
+        refresh-enabled: true
+        file-extension: yaml
+        # ${prefix}[-${profiles.active}].${file.extension} prefix default ${spring.application.name}
+        prefix: consumer
+        namespace: 64c3bbf8-b035-4f3f-ae6c-488afe0ec63e
+        extension-configs[0]:
+          data-id: consuerm-test.yaml
+          group: consumer
+          refresh: true
+      discovery:
+        server-addr: guangchang.tech:8848
+        group: consumer
+        namespace: 64c3bbf8-b035-4f3f-ae6c-488afe0ec63e
