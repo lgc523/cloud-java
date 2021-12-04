@@ -1,0 +1,31 @@
+server:
+  port: 8023
+spring:
+  profiles:
+    active: dev
+  application:
+    name: provider
+  main:
+    banner-mode: off
+
+  cloud:
+    nacos:
+      config:
+        server-addr: c1:8848
+        endpoint: "*"
+
+#config fot nacos
+
+
+#config for actuator
+management:
+  auditevents:
+    enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /stat
+#nacos:
+#  config:
+#    server-addr: http://c1:8848

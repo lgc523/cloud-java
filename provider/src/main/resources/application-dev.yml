@@ -1,0 +1,12 @@
+#config for actuator
+management:
+  auditevents:
+    enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /stat
+#nacos:
+#  config:
+#    server-addr: http://c1:8848
