@@ -9,96 +9,90 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * repeat read io
  */
 @Slf4j
-public class RequestWrapper extends HttpServletRequestWrapper {
+public class ServletRequestWrapper extends HttpServletRequestWrapper {
     /**
-     * 存储body数据的容器
+     * store body thread safe
      */
     private final byte[] body;
 
-    public RequestWrapper(HttpServletRequest request) throws IOException {
+    public ServletRequestWrapper(HttpServletRequest request) {
         super(request);
-
-        // 将body数据存储起来
-        String bodyStr = getBodyString(request);
-        body = bodyStr.getBytes(Charset.defaultCharset());
+        body = getBodyString(request).getBytes(Charset.defaultCharset());
     }
 
     /**
-     * 获取请求Body
+     * get body
      *
      * @param request request
      * @return String
      */
     public String getBodyString(final ServletRequest request) {
         try {
-            return inputStream2String(request.getInputStream());
+            return extractByteArr(request.getInputStream());
         } catch (IOException e) {
             log.error("", e);
-            throw new RuntimeException(e);
+            throw new RequestWrapperException(e);
         }
     }
 
     /**
-     * 获取请求Body
+     * get wrapped bodyString
      *
      * @return String
      */
-    public String getBodyString() {
+    public Optional<String> getWrappedBodyString() {
         final InputStream inputStream = new ByteArrayInputStream(body);
 
-        return inputStream2String(inputStream);
+        String realBody = extractByteArr(inputStream);
+        if (Objects.equals(realBody, "{}")) {
+            return Optional.empty();
+        } else {
+            return Optional.of(realBody);
+        }
     }
 
     /**
-     * 将inputStream里的数据读取出来并转换成字符串
+     * byte arr -> string
      *
      * @param inputStream inputStream
      * @return String
      */
-    private String inputStream2String(InputStream inputStream) {
+    private String extractByteArr(InputStream inputStream) {
         StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
 
-        try {
-            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
         } catch (IOException e) {
             log.error("", e);
-            throw new RuntimeException(e);
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    log.error("", e);
-                }
-            }
+            throw new RequestWrapperException(e);
         }
 
         return sb.toString();
     }
 
     @Override
-    public BufferedReader getReader() throws IOException {
+    public BufferedReader getReader() {
         return new BufferedReader(new InputStreamReader(getInputStream()));
     }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
 
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(body);
 
         return new ServletInputStream() {
             @Override
-            public int read() throws IOException {
+            public int read() {
                 return inputStream.read();
             }
 
@@ -116,5 +110,12 @@ public class RequestWrapper extends HttpServletRequestWrapper {
             public void setReadListener(ReadListener readListener) {
             }
         };
+    }
+
+    public static class RequestWrapperException extends RuntimeException {
+
+        public RequestWrapperException(Throwable cause) {
+            super(cause);
+        }
     }
 }
