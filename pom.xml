@@ -8,13 +8,13 @@
 
     <groupId>dev.spider</groupId>
     <artifactId>cloud-java</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1.SNAPSHOT</version>
     <packaging>pom</packaging>
 
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -24,6 +24,7 @@
     <modules>
         <module>provider</module>
         <module>consumer</module>
+        <module>gw</module>
     </modules>
 
     <dependencyManagement>
@@ -71,13 +72,28 @@
                 <version>5.8.2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.0.17.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.78</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <repositories>
         <repository>
             <id>public</id>
-            <url>http://liguangchang.cn:5678/repository/maven-public/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -91,42 +107,44 @@
         </repository>
     </repositories>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Internal Snapshots</name>
-            <url>http://liguangchang.cn:5678/repository/maven-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <name>Internal Releases</name>
-            <url>http://liguangchang.cn:5678/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <snapshotRepository>-->
+<!--            <id>snapshots</id>-->
+<!--            <name>Internal Snapshots</name>-->
+<!--            <url>http://liguangchang.cn:5678/repository/maven-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>releases</id>-->
+<!--            <name>Internal Releases</name>-->
+<!--            <url>http://liguangchang.cn:5678/repository/maven-releases/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
 
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>dev.spider</groupId>
-                <artifactId>scala-action</artifactId>
-                <version>1.0</version>
-            </extension>
-        </extensions>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.5.4</version>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
+<!--        <extensions>-->
+<!--            <extension>-->
+<!--                <groupId>dev.spider</groupId>-->
+<!--                <artifactId>scala-action</artifactId>-->
+<!--                <version>1.0</version>-->
+<!--            </extension>-->
+<!--        </extensions>-->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>2.5.4</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
