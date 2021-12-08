@@ -16,7 +16,7 @@ public class HttpReqFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        ServletRequest requestWrapper = new ServletRequestWrapper((HttpServletRequest) request);
+        ServletRequest requestWrapper = new ReqWrapper((HttpServletRequest) request);
         chain.doFilter(requestWrapper, response);
     }
 }

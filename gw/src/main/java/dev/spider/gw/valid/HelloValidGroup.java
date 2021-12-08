@@ -5,11 +5,11 @@ package dev.spider.gw.valid;
  *
  * @author spider
  */
-public class HelloValidGroup extends DefaultValidGroup {
+public class HelloValidGroup {
 
-    public interface ValidA {
+    public interface ValidA extends DefaultValidGroup.Default {
     }
 
-    public interface ValidB {
+    public interface ValidB extends DefaultValidGroup.Default {
     }
 }

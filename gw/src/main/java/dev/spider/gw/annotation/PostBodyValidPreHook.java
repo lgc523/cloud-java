@@ -21,8 +21,9 @@ public @interface PostBodyValidPreHook {
     Class bodyClass();
 
     /**
-     * valid groups
+     * route key (single)
      */
-    Class[] validGroup();
+    String routeKey();
 
+    Class serviceClass();
 }
