@@ -7,9 +7,9 @@ package dev.spider.gw.valid;
  */
 public class HelloValidGroup {
 
-    public interface ValidA extends DefaultValidGroup.Default {
+    public interface ValidA extends ValidDefault {
     }
 
-    public interface ValidB extends DefaultValidGroup.Default {
+    public interface ValidB extends ValidDefault {
     }
 }

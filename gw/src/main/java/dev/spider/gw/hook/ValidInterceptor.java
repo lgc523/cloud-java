@@ -47,7 +47,6 @@ public class ValidInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-
         PostBodyValidPreHook methodAnnotation = ((HandlerMethod) handler).getMethodAnnotation(PostBodyValidPreHook.class);
         if (Objects.nonNull(methodAnnotation)) {
 

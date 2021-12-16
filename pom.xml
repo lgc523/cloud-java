@@ -18,6 +18,9 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <lombok.version>1.18.22</lombok.version>
     </properties>
 
 
@@ -125,6 +128,11 @@
                 <version>3.4.1</version>
                 <type>pom</type>
             </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -144,29 +152,14 @@
             </snapshots>
         </repository>
     </repositories>
-
-<!--    <distributionManagement>-->
-<!--        <snapshotRepository>-->
-<!--            <id>snapshots</id>-->
-<!--            <name>Internal Snapshots</name>-->
-<!--            <url>http://liguangchang.cn:5678/repository/maven-snapshots/</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>releases</id>-->
-<!--            <name>Internal Releases</name>-->
-<!--            <url>http://liguangchang.cn:5678/repository/maven-releases/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
-
-
     <build>
-<!--        <extensions>-->
-<!--            <extension>-->
-<!--                <groupId>dev.spider</groupId>-->
-<!--                <artifactId>scala-action</artifactId>-->
-<!--                <version>1.0</version>-->
-<!--            </extension>-->
-<!--        </extensions>-->
+        <!--        <extensions>-->
+        <!--            <extension>-->
+        <!--                <groupId>dev.spider</groupId>-->
+        <!--                <artifactId>scala-action</artifactId>-->
+        <!--                <version>1.0</version>-->
+        <!--            </extension>-->
+        <!--        </extensions>-->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -180,6 +173,35 @@
                                 <artifactId>lombok</artifactId>
                             </exclude>
                         </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <annotationProcessorPaths>
+                            <!-- MapStruct 注解处理器 -->
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                            <!-- Lombok 注解处理器 -->
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <!-- MapStruct 和 Lombok 注解绑定处理器 -->
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
             </plugins>
