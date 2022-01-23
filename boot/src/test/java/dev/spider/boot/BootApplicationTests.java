@@ -30,10 +30,12 @@ public class BootApplicationTests {
 
     @Test
     public void testHello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/hello").
-                        accept(MediaType.APPLICATION_JSON)).
-                andExpect(status().isOk()).
-                andExpect(content().string(equalTo("hello spider")));
+        while (true) {
+            mvc.perform(MockMvcRequestBuilders.get("/hello").
+                            accept(MediaType.APPLICATION_JSON)).
+                    andExpect(status().isOk()).
+                    andExpect(content().string(equalTo("hello spider")));
+        }
     }
 
 }
